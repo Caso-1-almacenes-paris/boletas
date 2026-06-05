@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8086
 
 spring:
   application:
@@ -24,7 +24,7 @@ spring:
 # Servicio que consume registro vía WebClient
 services:
   ventas:
-    url: ${VENTAS_URL:http://localhost:8083}
+    url: ${VENTAS_URL:http://localhost:8085}
 
 eureka:
   client:

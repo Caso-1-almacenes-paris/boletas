@@ -7,7 +7,7 @@ Emitir y almacenar comprobantes de las ventas pagadas. Consume el servicio `vent
 para obtener los datos de la venta y exige que esté en estado `PAGADA`.
 
 ## Puerto
-`8084`
+`8086`
 
 ## Endpoints
 
@@ -39,7 +39,7 @@ para obtener los datos de la venta y exige que esté en estado `PAGADA`.
 BD **independiente** en Neon (`registrodb`). Variables de entorno:
 ```
 REGISTRO_DB_URL, REGISTRO_DB_USER, REGISTRO_DB_PASS
-VENTAS_URL (default http://localhost:8083)
+VENTAS_URL (default http://localhost:8085)
 ```
 
 ## Ejecutar
