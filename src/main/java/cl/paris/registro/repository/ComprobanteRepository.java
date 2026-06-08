@@ -12,7 +12,6 @@ import cl.paris.registro.model.Comprobante;
 @Repository
 public interface ComprobanteRepository extends JpaRepository<Comprobante, Long> {
 
-    // Query methods
     Optional<Comprobante> findByVentaId(Long ventaId);
 
     List<Comprobante> findByClienteId(UUID clienteId);

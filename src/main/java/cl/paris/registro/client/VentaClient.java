@@ -9,7 +9,6 @@ import cl.paris.registro.dto.VentaResponse;
 import cl.paris.registro.exception.ResourceNotFoundException;
 import reactor.core.publisher.Mono;
 
-/** Consume el microservicio "ventas" para obtener la venta a facturar. */
 @Component
 public class VentaClient {
 
@@ -19,7 +18,6 @@ public class VentaClient {
         this.webClient = webClient;
     }
 
-    /** Trae la venta por id; lanza 404 si no existe. */
     public VentaResponse obtenerVenta(Long ventaId) {
         return webClient.get()
                 .uri("/api/v1/ventas/{id}", ventaId)

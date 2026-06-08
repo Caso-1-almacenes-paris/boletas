@@ -29,11 +29,9 @@ public class Comprobante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ID de la venta en el microservicio "ventas"
     @Column(name = "venta_id", nullable = false)
     private Long ventaId;
 
-    // Folio del comprobante (unico)
     @Column(nullable = false, unique = true, length = 30)
     private String numero;
 

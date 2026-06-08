@@ -31,23 +31,17 @@ public class ComprobanteService {
         this.ventaClient = ventaClient;
     }
 
-    /**
-     * Emite el comprobante de una venta: trae la venta via WebClient,
-     * exige que este PAGADA y que no tenga comprobante previo.
-     */
     @Transactional
     public Comprobante emitir(EmitirComprobanteRequest request) {
-        // Validacion cruzada: la venta debe existir
         VentaResponse venta = ventaClient.obtenerVenta(request.ventaId());
 
-        // Regla de negocio: solo se factura una venta pagada
         if (!ESTADO_VENTA_PAGADA.equalsIgnoreCase(venta.estado())) {
             throw new BusinessException(
                     "No se puede emitir comprobante: la venta " + venta.id()
                             + " no esta PAGADA (estado: " + venta.estado() + ")");
         }
 
-        // Regla de negocio: un comprobante por venta
+
         if (comprobanteRepository.existsByVentaId(venta.id())) {
             throw new BusinessException(
                     "La venta " + venta.id() + " ya tiene un comprobante emitido");
@@ -95,7 +89,6 @@ public class ComprobanteService {
         return comprobanteRepository.findByClienteId(clienteId);
     }
 
-    /** Anula un comprobante emitido. */
     @Transactional
     public Comprobante anular(Long id) {
         Comprobante comprobante = obtener(id);

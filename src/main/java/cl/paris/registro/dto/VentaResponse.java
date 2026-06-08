@@ -7,11 +7,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Espejo de la respuesta del servicio "ventas" (GET /api/v1/ventas/{id}).
- * El estado se modela como String para no acoplar enums entre servicios;
- * registro solo necesita comparar contra "PAGADA".
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record VentaResponse(
         Long id,
