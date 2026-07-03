@@ -26,10 +26,12 @@ services:
 
 eureka:
   client:
+    
+    enabled: ${ENABLE_EUREKA:false}
     service-url:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: ${ENABLE_EUREKA:false}
+    fetch-registry: ${ENABLE_EUREKA:false}
   instance:
     prefer-ip-address: true
     
