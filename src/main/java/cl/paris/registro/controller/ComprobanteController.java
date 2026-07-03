@@ -19,6 +19,13 @@ import cl.paris.registro.mapper.ComprobanteMapper;
 import cl.paris.registro.service.ComprobanteService;
 import jakarta.validation.Valid;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Content;
+
+@Tag(name = "Comprobantes", description = "API para la gestión y emisión de comprobantes")
 @RestController
 @RequestMapping("/api/v1/comprobantes")
 public class ComprobanteController {
@@ -29,22 +36,41 @@ public class ComprobanteController {
         this.comprobanteService = comprobanteService;
     }
 
+    @Operation(summary = "Emitir comprobante", description = "Crea y emite un nuevo comprobante en el sistema.")
+    @ApiResponse(responseCode = "201", description = "Comprobante emitido exitosamente")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ComprobanteResponse emitir(@Valid @RequestBody EmitirComprobanteRequest request) {
+    public ComprobanteResponse emitir(
+            @Valid 
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Cuerpo de la solicitud para emitir un comprobante",
+                content = @Content(
+                    examples = @ExampleObject(
+                        name = "Ejemplo de Request",
+                        value = "{\n  \"ventaId\": 1045,\n  \"medioPago\": \"TARJETA\"\n}"
+                    )
+                )
+            )
+            @RequestBody EmitirComprobanteRequest request) {
         return ComprobanteMapper.toResponse(comprobanteService.emitir(request));
     }
 
+    @Operation(summary = "Obtener comprobante", description = "Busca un comprobante específico mediante su ID.")
+    @ApiResponse(responseCode = "200", description = "Comprobante encontrado y retornado")
     @GetMapping("/{id}")
     public ComprobanteResponse obtener(@PathVariable Long id) {
         return ComprobanteMapper.toResponse(comprobanteService.obtener(id));
     }
 
+    @Operation(summary = "Obtener por venta", description = "Busca el comprobante asociado al ID de una venta específica.")
+    @ApiResponse(responseCode = "200", description = "Comprobante de la venta encontrado")
     @GetMapping("/venta/{ventaId}")
     public ComprobanteResponse obtenerPorVenta(@PathVariable Long ventaId) {
         return ComprobanteMapper.toResponse(comprobanteService.obtenerPorVenta(ventaId));
     }
 
+    @Operation(summary = "Obtener por cliente", description = "Obtiene todo el historial de comprobantes asociados a un cliente.")
+    @ApiResponse(responseCode = "200", description = "Lista de comprobantes del cliente retornada")
     @GetMapping("/cliente/{clienteId}")
     public List<ComprobanteResponse> obtenerPorCliente(@PathVariable UUID clienteId) {
         return comprobanteService.obtenerPorCliente(clienteId).stream()
@@ -52,6 +78,8 @@ public class ComprobanteController {
                 .toList();
     }
 
+    @Operation(summary = "Anular comprobante", description = "Cambia el estado de un comprobante existente a anulado.")
+    @ApiResponse(responseCode = "200", description = "Comprobante anulado exitosamente")
     @PatchMapping("/{id}/anular")
     public ComprobanteResponse anular(@PathVariable Long id) {
         return ComprobanteMapper.toResponse(comprobanteService.anular(id));
